@@ -37,8 +37,18 @@
 
     // AulaTiposDeDados();
 
-    $html = '<a href="http://localhost/curso-php-1/Aula 01-30/arquivo.php">Chamando Arquivo PHP </a>';
-
+    
+    $nome = "Yasmim";
+    $idade = 25;
+    
+    $parametros = "?nome=" . $nome . "&idade=" . $idade;
+    
+    // juntar parametros no arquivo.php
+    $urlBase = "http://localhost/curso-php/Aula 01-30/arquivo.php";
+    
+    $urlBase = $urlBase . $parametros;
+    
+    $html = '<a href=" ' . $urlBase . $parametros . '">Chamando Arquivo PHP </a>';
     echo $html;
 
 
