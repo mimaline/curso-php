@@ -25,24 +25,24 @@
     var_dump($var3); //verifica o tipo da variavel
     
     echo '<br>';
-
+    
     $objetoPessoa = new stdClass();
     $objetoPessoa ->codigo = 1;
     $objetoPessoa ->nome = "João";
     $objetoPessoa ->idade = 36;
     var_dump($objetoPessoa);
-    }
+}
 
-    // chamar a função:
+// chamar a função:
 
-    // AulaTiposDeDados();
+// AulaTiposDeDados();
 
+
+$nome = "Yasmim";
+$idade = 25;
     
-    $nome = "Yasmim";
-    $idade = 25;
-    
-    $parametros = "?nome=" . $nome . "&idade=" . $idade;
-    
+$parametros = "?nome=" . $nome . "&idade=" . $idade;
+
     // juntar parametros no arquivo.php
     $urlBase = "http://localhost/curso-php/Aula 01-30/arquivo.php";
     
@@ -50,7 +50,16 @@
     
     $html = '<a href=" ' . $urlBase . $parametros . '">Chamando Arquivo PHP </a>';
     echo $html;
-
-
+    
+    echo '<br>';
+    //#################### STRINGS ###################### 
+    $palavra = "arara";
+    $parametros = "?palavra=" . $palavra;
+    
+    $urlBase = "http://localhost/curso-php/Aula 01-30/string.php";
+    echo'<a href=" ' . $urlBase .  $parametros . '">Chamando String PHP </a>';
+    
+    
+    
     
 
