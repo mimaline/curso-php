@@ -56,6 +56,15 @@ if(isset($_GET["palavra"])) {
     }
 
     function isPalindroma($palavra) {
+
+        if(is_array($palavra)){
+            $tamanho = count($palavra);
+        }else if(is_string($palavra)){
+            $tamanho = strlen($palavra);
+        } else {
+            throw new Exception("Palavra Inválida!");
+        }
+
         $palindromo = false;
         $aPalavraInvertida = array();
 
@@ -67,19 +76,17 @@ if(isset($_GET["palavra"])) {
             $aPalavraInvertida[$i] = $letra;
         }
 
+        //         for (int i = 0; i < len; i++) {
+//             if (palindromo.charAt(i) != palindromo.charAt(len - i - 1)) {
+//                 pali = false;
+//              }
+//         }
+
         for ($i=0; $i < $tamanho; $i++) {
             if ($palavra[$i] = $aPalavraInvertida[$i]) {
-                echo 'Posição ' . $i . 'letras iguais ' . $palavra[$i] . ' ' . $aPalavraInvertida[$i];
-                $letrasIguais++;
+                $palindromo = true;
             }
         }
-
-        if ($tamanho = $letrasIguais) {
-            $palindromo = true;
-        } else {
-            $palindromo = false;
-        }
-
 
         //verifica se é palindroma
 
@@ -90,41 +97,8 @@ if(isset($_GET["palavra"])) {
         }
     }
 
-    isPalindroma("arara");
+    isPalindroma("maria");
 
 } else {
     echo 'Parametros Invalidos';
 }
-
-// package Aula16Ago2022;
-
-// import java.util.Scanner;
-
-// public class Aula_Ex_08 {
-//     public static void main(String[] args) {
-//         // Faça um algoritmo que leia um nome e o guarde na memória.
-//         //Após a leitura, verifique se a palavra é um palíndromo.
-//         //Um palíndromo é aquela palavra que a sua leitura é a mesma da esquerda para a direita e vice versa. Exemplo: ARARA, ANA, etc.
-
-//         Scanner sc = new Scanner(System.in);
-//         String palindromo;
-//         boolean pali = true;
-
-//         System.out.println("Insira uma palavra:");
-//         palindromo = sc.next();
-//         int len = palindromo.length();
-
-//         for (int i = 0; i < len; i++) {
-//             if (palindromo.charAt(i) != palindromo.charAt(len - i - 1)) {
-//                 pali = false;
-//              }
-//         }
-//         if (pali) {
-//             System.out.println(palindromo + " é palíndromo!");
-//         } else {
-//             System.out.println(palindromo + " não é palíndromo!");
-
-//         }
-
-//     }
-// }
