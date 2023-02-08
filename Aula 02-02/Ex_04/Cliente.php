@@ -8,10 +8,16 @@ class Cliente {
     public $tel;
 
     // Metodos:
-    public function exibir() {
-       echo 'Nome: '     . $this->nome  . '<br>';
-       echo 'Email: '    . $this->email . '<br>';
-       echo 'Telefone: ' . $this->tel   . '<br>';
+    public function getNome() {
+       return $this->nome;
+    }    
+
+    public function getEmail() {
+       return $this->email;
+    }    
+    
+    public function getTelefone() {
+       return $this->tel;
     }    
 }
 

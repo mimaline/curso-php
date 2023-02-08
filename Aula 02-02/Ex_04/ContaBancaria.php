@@ -23,27 +23,32 @@ class ContaBancaria extends Cliente{
     }
 
     public function sacar($valor) {
-        $this->saldoAtual -= $valor;
-        $operacao = "Realizado saque do cliente ".$this->cliente->getNome()." no valor de R$ ".$valor.".";
-        $this->operacoes[] = $operacao;
-        echo $operacao." Saldo atual: R$ ".$this->saldoAtual.".";
+        
+        if($saldoAtual>=$valor) {
+            $this->saldoAtual -= $valor;
+            $operacao = "Realizado saque do cliente " . $this->cliente()->nome . " no valor de R$ " . $valor . ".";
+            $this->operacoes[] = $operacao;
+            echo $operacao . " Saldo atual: R$ " . $this->saldoAtual . ".";
+        } else {
+            echo 'Saldo insuficiente!';
+        }
     }
 
     public function depositar($valor) {
         $this->saldoAtual += $valor;
-        $operacao = "Realizado depósito para o cliente ".$this->cliente->getNome()." no valor de R$ ".$valor.".";
+        $operacao = "Realizado depósito para o cliente " . $this->getCliente()->nome . " no valor de R$ " . $valor . ".";
         $this->operacoes[] = $operacao;
         echo $operacao." Saldo atual: R$ ".$this->saldoAtual.".";
     }
 
     public function exibeSaldo() {
-        echo "Saldo atual do cliente ".$this->cliente->getNome()." R$ ".$this->saldoAtual.".";
+        echo "Saldo atual do cliente " . $this->getCliente()->nome . " R$ " . $this->saldoAtual . ".";
     }
 
     public function exibeExtrato() {
-        echo "Cliente: ".$this->cliente->getNome()."\n";
-        echo "E-mail: ".$this->cliente->getEmail()."\n";
-        echo "Telefone: ".$this->cliente->getTelefone()."\n";
+        echo "Cliente: ".$this->cliente->getNome() . "<br>";
+        echo "E-mail: ".$this->cliente->getEmail()."<br>";
+        echo "Telefone: ".$this->cliente->getTelefone()."<br>";
         // echo "CPF/CNPJ: ".$this->cliente->getCpfCnpj()."\n\n";
     
         foreach ($this->operacoes as $operacao) {
@@ -52,10 +57,3 @@ class ContaBancaria extends Cliente{
     }
 
 }
-
-$oCliente = new Cliente();
-$oCliente->nome = 'Joao';
-
-$oContaBancaria = new ContaBancaria($oCliente);
-
-echo 'Nome cliente:' . $oContaBancaria->getCliente()->getNome();
