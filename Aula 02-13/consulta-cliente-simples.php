@@ -40,8 +40,7 @@ echo "<hr>";
 
 require_once 'conexao.php';
 
-function getDados()
-{
+function getDados(){
     /** @var PDO $pdo */
     $pdo = getConexao();
 
@@ -60,8 +59,7 @@ function getDados()
     return $aDados;
 }
 
-function getColunasTabela()
-{
+function getColunasTabela(){
     $html_colunas_tabela = '';
 
     // busca os dados do banco de dados
@@ -120,8 +118,7 @@ function getAcoesCliente($cliente_id) {
     return $html_acao;
 }
 
-function carregaCabecalho()
-{
+function carregaCabecalho(){
     $html = '<!DOCTYPE html>
             <html lang="pt-BR">
             
@@ -133,7 +130,11 @@ function carregaCabecalho()
                 <link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,400;0,700;1,200;1,800&display=swap"
                       rel="stylesheet">
             
+                <link rel="stylesheet" href="css/main.css">
                 <link rel="stylesheet" href="css/button.css">
+                <link rel="stylesheet" href="css/records.css">
+                <link rel="stylesheet" href="css/modal.css">
+
                 <script src="js/jquery.min.js" defer></script>
                 <script src="js/cliente.js" defer></script>
             
@@ -142,6 +143,28 @@ function carregaCabecalho()
             <body>';
 
     return $html;
+}
+
+function getModalClientes(){
+    return '<div class="modal" id="modal">
+            <div class="modal-content">
+                <header class="modal-header">
+                    <h2>Novo Cliente</h2>
+                    <span class="modal-close" id="modalClose">&#10006;</span>
+                </header>
+                <form id="form" class="modal-form">
+                    <input type="hidden" id="id" class="modal-field" placeholder="Id">
+                    <input type="text" id="nome" data-index="new" class="modal-field" placeholder="Nome do Cliente" required value="Joao">
+                    <input type="text" id="telefone" class="modal-field" placeholder="Sobrenome..." required value="(47)999441914">
+                    <input type="text" id="email" class="modal-field" placeholder="Endereço..." required value="joao@email.com">
+                    <input type="text" id="cidade" class="modal-field" placeholder="Telefone..." required value="Rio do Sul">
+                </form>
+                <footer class="modal-footer" id="modal-footer">
+                    <button id="salvar" class="button green">Salvar</button>
+                    <button id="cancelar" class="button blue">Cancelar</button>
+                </footer>
+            </div>
+        </div>';
 }
 
 function carregaClientes(){
@@ -187,6 +210,9 @@ function carregaClientes(){
     $html_tabela .= "</tbody>";
 
     $html_tabela .= "</table>";
+    
+    $html_tabela .= getModalClientes();
+    
 
     echo $html_tabela;
 }

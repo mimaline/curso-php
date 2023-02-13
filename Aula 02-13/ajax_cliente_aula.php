@@ -2,6 +2,16 @@
 
 require_once 'conexao.php';
 
+function buscaDadosAlteracao(){
+    $registro = json_decode($_POST["cliente"], true);
+    
+    $cliente_id = $registro["cliente_id"];
+    
+    $aDados = getDadosFromBancoDados($cliente_id);
+    
+    echo json_encode($aDados);
+}
+
 function executaExclusao(){
     $registro = json_decode($_POST["cliente"], true);
 
