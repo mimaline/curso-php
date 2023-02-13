@@ -2,7 +2,7 @@ function excluirCliente(cliente_id) {
     console.log('cliente id: ' + cliente_id)
     alert("Excluindo registro...");
     const cliente = {
-        id: cliente_id
+        cliente_id: cliente_id
     };
 
     loadAjaxUpdateRegistro(cliente, "EXECUTA_EXCLUSAO");
