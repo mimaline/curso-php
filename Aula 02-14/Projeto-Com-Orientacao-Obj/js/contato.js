@@ -36,7 +36,7 @@ function editarContato(contato_id){
 
             oContato.id = oContato.contato_id;
 
-            debugger;
+            // debugger;
 
             carregaCampos(oContato);
 
@@ -166,14 +166,12 @@ const createRow = (contato, index) => {
     document.querySelector('#tableDados>tbody').appendChild(newRow);
 };
 
-function incluirCliente(){
+function incluirDados(){
     document.getElementById('id').value = "";
     openModal();
 }
 
 // Eventos
-document.getElementById('cadastrarCliente')
-    .addEventListener('click', incluirCliente);
 
 document.getElementById('cancelar')
     .addEventListener('click', closeModal);
@@ -183,10 +181,4 @@ document.getElementById('modalClose')
 
 document.getElementById('salvar')
     .addEventListener('click', updateDados);
-
-document.getElementById('consultarDadosCliente')
-    .addEventListener('click', loadAjaxConsulta);
-
-document.getElementById('limparDadosCliente')
-    .addEventListener('click', clearTable);
 

@@ -155,7 +155,7 @@ function editarCliente(cliente_id) {
         }
     })
     }
-function incluirCliente(){
+function incluirDados(){
         document.getElementById('cliente_id').value = "";
         openModal();
 }
@@ -168,12 +168,3 @@ document.getElementById('modalClose')
 
 document.getElementById('salvar')
     .addEventListener('click', updateDados);
-
-document.getElementById('cadastrarCliente')
-    .addEventListener('click', incluirCliente);
-
-document.getElementById('consultarDadosCliente')
-    .addEventListener('click', loadAjaxConsulta);
-
-document.getElementById('limparDadosCliente')
-    .addEventListener('click', clearTable);
