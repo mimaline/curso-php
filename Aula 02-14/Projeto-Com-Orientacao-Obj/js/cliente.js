@@ -13,7 +13,7 @@ const isValidFields = () => {
 };
 
 const carregaCampos = (oCliente) => {
-    document.getElementById('id').value        = oCliente.id;
+    document.getElementById('cliente_id').value        = oCliente.cliente_id;
     document.getElementById('nome').value      = oCliente.nome;
     document.getElementById('telefone').value = oCliente.telefone;
     document.getElementById('email').value  = oCliente.email;
@@ -25,21 +25,21 @@ const updateDados = () => {
     if (isValidFields()) {
         const index = document.getElementById('nome').dataset.index;
         if (index == 'new') {
-            const contato = {
+            const cliente = {
                 nome: document.getElementById('nome').value,
                 telefone: document.getElementById('telefone').value,
                 email: document.getElementById('email').value,
-                tcidade: document.getElementById('cidade').value,
+                cidade: document.getElementById('cidade').value,
             };
 
             loadAjaxUpdateRegistro(cliente, "EXECUTA_INCLUSAO");
         } else {
             const cliente = {
-                cliente_id:document.getElementById('id').value,
+                cliente_id:document.getElementById('cliente_id').value,
                 nome: document.getElementById('nome').value,
                 telefone: document.getElementById('telefone').value,
                 email: document.getElementById('email').value,
-                tcidade: document.getElementById('cidade').value,
+                cidade: document.getElementById('cidade').value,
             };
 
             loadAjaxUpdateRegistro(cliente, "EXECUTA_ALTERACAO");
@@ -155,6 +155,10 @@ function editarCliente(cliente_id) {
         }
     })
     }
+function incluirCliente(){
+        document.getElementById('cliente_id').value = "";
+        openModal();
+}
 
 document.getElementById('cancelar')
     .addEventListener('click', closeModal);
@@ -164,3 +168,12 @@ document.getElementById('modalClose')
 
 document.getElementById('salvar')
     .addEventListener('click', updateDados);
+
+document.getElementById('cadastrarCliente')
+    .addEventListener('click', incluirCliente);
+
+document.getElementById('consultarDadosCliente')
+    .addEventListener('click', loadAjaxConsulta);
+
+document.getElementById('limparDadosCliente')
+    .addEventListener('click', clearTable);

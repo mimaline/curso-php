@@ -1,50 +1,12 @@
 <?php
 
-$enunciado = 'Criar uma consulta de clientes igual a que acabamos de fazer.
-<br>
-    Para isso, no arquivo "conexao.php", adicione antes do "return $pdo", o trecho de codigo abaixo:<br>
-<code>
-    <i>
-        $query = "CREATE TABLE IF NOT EXISTS cliente (cliente_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, nome TEXT, telefone TEXT, email TEXT, cidade TEXT)";
-        <br>
-        $pdo->exec($query);
-    </i>
-</code>
-<br>
-A classe deve ficar como abaixo:<br>
-<code>
-    function getConexao(){
-    
-        try {
-            $pdo = new PDO(\'sqlite:db/contato.sqlite3\');
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch (PDOException $e) {
-            echo $e->getMessage();
-            exit;
-        }
-    
-        $query = "CREATE TABLE IF NOT EXISTS contato (contato_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, nome TEXT, sobrenome TEXT, endereco TEXT, telefone TEXT, email TEXT, nascimento TEXT)";
-        $pdo->exec($query);
-    
-        $query = "CREATE TABLE IF NOT EXISTS cliente (cliente_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, nome TEXT, telefone TEXT, email TEXT, cidade TEXT)";
-        $pdo->exec($query);
-    
-        return $pdo;
-    }
-</code>';
-
-//echo $enunciado;
-
-echo "<hr>";
-
-
 require_once 'conexao.php';
 
-function getDados(){
+function getDados() {
     /** @var PDO $pdo */
     $pdo = getConexao();
 
-    $query = "SELECT * FROM `cliente`";
+    $query = "SELECT * FROM `contato`";
 
     $stmt = $pdo->prepare($query);
 
@@ -52,7 +14,7 @@ function getDados(){
 
     // percorrer os dados e colocar num array
     $aDados = array();
-    while ($result = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    while($result = $stmt->fetch(PDO::FETCH_ASSOC)){
         $aDados[] = $result;
     }
 
@@ -65,26 +27,30 @@ function getColunasTabela(){
     // busca os dados do banco de dados
     $aDados = getDados();
 
-    if (count($aDados)) {
-        foreach ($aDados as $aContato) {
+    if(count($aDados)){
+        foreach ($aDados as $aContato){
             // inicia linha
             $html_colunas_tabela .= "<tr>";
 
-            $cliente_id = $aContato["cliente_id"];
+            $contato_id = $aContato["contato_id"];
             $nome       = $aContato["nome"];
+            $sobrenome  = $aContato["sobrenome"];
+            $endereco   = $aContato["endereco"];
             $telefone   = $aContato["telefone"];
             $email      = $aContato["email"];
-            $cidade     = $aContato["cidade"];
+            $nascimento = $aContato["nascimento"];
 
             // Colunas
-            $html_colunas_tabela .= "<td>$cliente_id</td>";
+            $html_colunas_tabela .= "<td>$contato_id</td>";
             $html_colunas_tabela .= "<td>$nome</td>";
+            $html_colunas_tabela .= "<td>$sobrenome</td>";
+            $html_colunas_tabela .= "<td>$endereco</td>";
             $html_colunas_tabela .= "<td>$telefone</td>";
             $html_colunas_tabela .= "<td>$email</td>";
-            $html_colunas_tabela .= "<td>$cidade</td>";
+            $html_colunas_tabela .= "<td>$nascimento</td>";
 
             // Adiciona as acoes da tabela
-            $html_colunas_tabela .= getAcoesCliente($cliente_id);
+            $html_colunas_tabela .= getAcoesContato($contato_id);
 
             // finaliza linha
             $html_colunas_tabela .= "</tr>";
@@ -97,7 +63,7 @@ function getColunasTabela(){
     return $html_colunas_tabela;
 }
 
-function getAcoesCliente($cliente_id) {
+function getAcoesContato($contato_id){
     // Lista de alteracoes
     // 0 - Adicionar o header 'Ações'
     // 1 - Adicionar a classe css de botao 'button.css' com a pasta de css
@@ -108,11 +74,12 @@ function getAcoesCliente($cliente_id) {
     // 6 - Criar a programacao via php de exclusao/alteracao
     // 7 - Criar a programacao via php de inclusao de dados
 
+    // Parte 2 - Adicionar o modal de insercao/alteracao
     $html_acao = '<td>
-                        <button type="button" class="button green" onclick="editarCliente(' . $cliente_id . ')">Editar</button>
+                        <button type="button" class="button green" onclick="editarContato(' . $contato_id . ')">Editar</button>
                    </td>
                    <td>
-                        <button type="button" class="button red" onclick="excluirCliente(' . $cliente_id . ')">Excluir</button>
+                        <button type="button" class="button red" onclick="excluirContato(' . $contato_id . ')">Excluir</button>
                     </td>';
 
     return $html_acao;
@@ -134,30 +101,40 @@ function carregaCabecalho(){
                 <link rel="stylesheet" href="css/button.css">
                 <link rel="stylesheet" href="css/records.css">
                 <link rel="stylesheet" href="css/modal.css">
-
+                
                 <script src="js/jquery.min.js" defer></script>
-                <script src="js/cliente.js" defer></script>
+                <script src="js/contato.js" defer></script>
             
-                <title>Cliente</title>
+                <title>Contato</title>
             </head>
             <body>';
 
     return $html;
 }
 
-function getModalClientes(){
+function getAcoesInclusao(){
+    return '<section class="acoes">
+                <button type="button" class="button blue mobile" id="cadastrarCliente">Incluir</button>
+                <button type="button" class="button green" id="consultarDadosCliente">Consultar</button>
+                <button type="button" class="button red" id="limparDadosCliente">Limpar Consulta</button>
+            </section>';
+}
+
+function getModalContatos(){
     return '<div class="modal" id="modal">
             <div class="modal-content">
                 <header class="modal-header">
-                    <h2>Novo Cliente</h2>
+                    <h2>Novo Contato</h2>
                     <span class="modal-close" id="modalClose">&#10006;</span>
                 </header>
                 <form id="form" class="modal-form">
                     <input type="hidden" id="id" class="modal-field" placeholder="Id">
                     <input type="text" id="nome" data-index="new" class="modal-field" placeholder="Nome do Cliente" required value="Joao">
-                    <input type="text" id="telefone" class="modal-field" placeholder="Sobrenome..." required value="(47)999441914">
-                    <input type="text" id="email" class="modal-field" placeholder="Endereço..." required value="joao@email.com">
-                    <input type="text" id="cidade" class="modal-field" placeholder="Telefone..." required value="Rio do Sul">
+                    <input type="text" id="sobrenome" class="modal-field" placeholder="Sobrenome..." required value="da Silva">
+                    <input type="text" id="endereco" class="modal-field" placeholder="Endereço..." required value="Estrada Porto Rico">
+                    <input type="text" id="telefone" class="modal-field" placeholder="Telefone..." required value="(47)98854-7844">
+                    <input type="email" id="email" class="modal-field" placeholder="E-mail..." required value="joao@email.com">
+                    <input type="text" id="nascimento" class="modal-field" placeholder="Data Nascimento..." required value="1986/07/19">
                 </form>
                 <footer class="modal-footer" id="modal-footer">
                     <button id="salvar" class="button green">Salvar</button>
@@ -167,34 +144,30 @@ function getModalClientes(){
         </div>';
 }
 
-function carregaClientes(){
+function carregaContatos(){
     $html_tabela = carregaCabecalho();
 
-    $html_tabela .= '<a href="executa_insert_clientes.php">Inserir Clientes</a>';
+    $html_tabela .= "<header>
+                        <h1 class=\"header-title\"> Contatos</h1>
+                    </header>";
+    
+    $html_tabela .= getAcoesInclusao();
 
     // Lista de Contatos em HTML com os dados do banco de dados(tabela html)
     $html_tabela .= "<table border='1' id=\"tableDados\">";
-
-    $html_tabela .= "<caption><h1>Clientes</h1></caption>";
 
     $html_tabela .= "<thead>";
     // iniciando linha
     $html_tabela .= "    <tr>";
 
-    //$query = "CREATE TABLE IF NOT EXISTS cliente
-    // (
-    //cliente_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-    // nome TEXT,
-    // telefone TEXT,
-    // email TEXT,
-    // cidade TEXT)";
-
     // colunas cabecalho
     $html_tabela .= "    <th>Id</th>";
     $html_tabela .= "    <th>Nome</th>";
+    $html_tabela .= "    <th>Sobrenome</th>";
+    $html_tabela .= "    <th>Endereco</th>";
     $html_tabela .= "    <th>Telefone</th>";
     $html_tabela .= "    <th>E-mail</th>";
-    $html_tabela .= "    <th>Cidade</th>";
+    $html_tabela .= "    <th>Nascimento</th>";
     $html_tabela .= "    <th colspan='2'>Ações</th>";
 
     // fechando linha
@@ -210,11 +183,10 @@ function carregaClientes(){
     $html_tabela .= "</tbody>";
 
     $html_tabela .= "</table>";
-    
-    $html_tabela .= getModalClientes();
-    
+
+    $html_tabela .= getModalContatos();
 
     echo $html_tabela;
 }
 
-carregaClientes();
+carregaContatos();
