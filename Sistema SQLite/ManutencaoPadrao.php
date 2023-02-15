@@ -104,6 +104,16 @@ abstract class ManutencaoPadrao {
     
         $query = "SELECT * FROM `" . $this->getNomeTabela() . "`";
         if ($campo && $operador && $valor){
+            if($campo == $this->getNomeColunaChave()){
+
+                $valor = (int)$valor;
+
+                if($valor == 0) {
+                    $valor = -1;
+                    $operador = "menor";
+                }
+            }
+
             if($operador == "maior"){
                 $operador = ">";
             } else if($operador == "menor"){

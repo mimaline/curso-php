@@ -21,6 +21,9 @@ function getConexao(){
     
     $query = "CREATE TABLE IF NOT EXISTS venda (venda_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, cliente_id INTEGER, formapagamento TEXT, total REAL)";
     $pdo->exec($query);
+  
+    $query = "CREATE TABLE IF NOT EXISTS usuario (usuario_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, email TEXT, senha TEXT)";
+    $pdo->exec($query);
 
     return $pdo;
 }

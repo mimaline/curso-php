@@ -1,6 +1,7 @@
 <?php
 
-require_once 'ConsultaPadrao.php';
+require_once ('ConsultaPadrao.php');
+
 class ConsultaContato extends ConsultaPadrao {
 
     protected function getNomeTabela(){

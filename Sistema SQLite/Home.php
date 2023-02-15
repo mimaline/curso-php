@@ -6,7 +6,7 @@ class Home extends ConsultaPadrao {
     protected function getColunasTabela() {
         // TODO: Implement getColunasTabela() method.
     }
-    
+        
     protected function getModalDados() {
         // TODO: Implement getModalDados() method.
     }
@@ -29,6 +29,10 @@ class Home extends ConsultaPadrao {
 
     protected function getFiltrosConsulta() {
         return "";
+    }
+
+    protected function getScriptFooter(){
+        return '';
     }
 }
 
